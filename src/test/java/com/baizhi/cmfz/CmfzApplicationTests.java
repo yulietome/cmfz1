@@ -18,6 +18,5 @@ class CmfzApplicationTests {
     AdminExample adminExample;
     @Test
     void contextLoads() {
-
     }
 }

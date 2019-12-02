@@ -3,6 +3,7 @@
         //创建表单
         $("#bnTable").jqGrid({
             url : "[[@{/}]]banner/banner.json",   //page  当前页    rows 每页展示条数
+            editurl:"[[@{/}]]banner/edit",
             datatype : "json",
             rowNum : 2,
             rowList : [2,5,10,20,30],
@@ -14,12 +15,12 @@
             colNames : [ 'Id', '图片', '描述', '状态', '上传时间'],
             colModel : [
                 {name : 'id',index : 'id',width : 55},
-                {name : 'srcImg',index : 'invdate',width : 90,align:"center",
+                {name : 'imgSrc',editable:true,index : 'invdate',width : 90,align:"center",edittype:"file",
                     formatter:function(cellvalue, options, rowObject){
                         return "<img src='../bootstrap/img/"+cellvalue+"' style='width:180px;height:80px' />";
                     }
                 },
-                {name : 'description',index : 'name asc, invdate',width : 100},
+                {name : 'description',editable:true,index : 'name asc, invdate',width : 100},
                 {name : 'status',index : 'amount',width : 80,align : "right",align:"center",
                     formatter:function(cellvalue, options, rowObject){
                         if(cellvalue==1){
@@ -33,7 +34,32 @@
             ]
         });
         //增删改查操作
-        $("#bnTable").jqGrid('navGrid', '#bnPage', {edit : true,add : true,del : true,addtext:"添加",edittext:"编辑"});
+        $("#bnTable").jqGrid('navGrid', '#bnPage', {edit : true,add : true,del : true,addtext:"添加",edittext:"编辑"},
+            {   closeAfterEdit:true,
+                beforeShowForm:function(obj){
+                    obj.find("#imgSrc").attr("disabled",true);
+                }
+            },
+            {
+                closeAfterAdd:true,
+                afterSubmit:function (data) {
+                    console.log(data)
+                $.ajaxFileUpload({
+                        url:"[[@{/}]]banner/uploadBanner",
+                        type:"post",
+                        dataType:"json",
+                        data:{id:data.responseText},  //获取id
+                        fileElementId:"imgSrc",  //需要上传的文件域的ID，即<input type="file">的ID
+                        success:function(){
+                            //刷新表单
+                            $("#bnTable").trigger("reloadGrid");
+                        }
+                    });
+                    return "123456";
+                }
+            },
+            {});
+
 
     });
 </script>
