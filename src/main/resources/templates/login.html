@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Signin Template for Bootstrap</title>
+<!--		 Bootstrap core CSS -->
+		<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="asserts/css/signin.css" th:href="@{/asserts/css/signin.css}" rel="stylesheet">
+		<script th:src="@{/webjars/jquery/3.3.1/jquery.js}"></script>
+		<script type="text/javascript">
+			$(function () {
+				console.log(123456)
+				var flag=false;
+				$("#username").blur(function () {
+					var username=$(this).val()
+					if (username==null){
+						flag=false;
+						$("#msg").html("用户名不能为空")
+					}
+				})
+				$("#password").blur(function () {
+					var password=$(this).val()
+					if (password==null){
+						flag=false;
+						$("#msg").html("用户名不能为空")
+					}
+				})
+				$("#txtVerifyCode").blur(function(){
+					var url = "imageCode/matchVerificationCode?d="+new Date().getTime();
+					var verifyCode = $(this).val();
+					if(verifyCode==""){
+						$("#msg").html("<b><font color='red'>验证码不能为空~~!</font><b/>");
+					}else{
+						if(verifyCode.length<4||verifyCode.length>4){
+							$("#msg").html("<b><font color='red'>验证格式不正确~~!</font><b/>");
+						}else{
+							$.ajax({
+								// 编写json格式，设置属性和值
+								url:url,
+								contentType:"application/json;charset=UTF-8",
+								data:{"verifyCode":verifyCode},
+								dataType:"json",
+								async:false,
+								type:"post",
+								success:function(data){
+									flag=data;
+								}
+							});
+							if (flag){
+								$("#msg").html("<b><font color='green'>验证通过~~!</font><b/>");
+							}else{
+								$("#msg").html("<b><font color='red'>验证码输入错误!</font><b/>");
+							}
+						}
+
+					}
+				});
+				$("#logins").click(function () {
+					console.log(123);
+					console.log($('#form').serialize())
+					var username=$("#username").val()
+					var password=$("#password").val()
+					if(username==""||password==""){
+						$("#msg").html("用户名和密码不能为空")
+					}else {
+						console.log(flag);
+						if (flag){
+							$.post("admin/login",$('#form').serialize(),function(data){
+								console.log(data);
+								if (data=="Ok"){
+									location.href="main"
+								}else {
+									$("#msg").html(data)
+								}
+							})
+						}else {
+							$("#msg").html("请输入正确的验证码")
+						}
+
+					}
+				})
+			})
+		</script>
+	</head>
+	<body class="text-center">
+		<form class="form-signin" id="form" method="post">
+			<img class="mb-4" th:src="@{/asserts/img/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt="" width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal" th:text="#{login.iap}">Please sign in</h1>
+			<!--判断-->
+			<p style="color: red"id="msg"></p>
+			<label class="sr-only" th:text="#{login.username}" >Username</label>
+			<input type="text" id="username" name="username" class="form-control"  th:placeholder="#{login.username}" placeholder="Username" required="required" autofocus="autofocus">
+			<label class="sr-only" th:text="#{login.password}"  >Password</label>
+			<input type="password" id="password" name="password" class="form-control"  th:placeholder="#{login.password}" placeholder="Password"  required="required" autofocus="autofocus">
+			<div class="form-group">
+				<img id="captchaImage" style="height: 46px;" class="captchaImage" th:src="@{/imageCode/getImgCode}">
+				<input class="form-control-sm" style="width: 180px;height: 46px" required type="text" name="enCode" id="txtVerifyCode">
+			</div>
+			<div class="checkbox mb-3">
+				<label>
+          			<input type="checkbox" value="remember-me"/>[[#{login.remember}]]
+        		</label>
+			</div>
+			<button class="btn btn-lg btn-primary btn-block" type="button" id="logins" th:text="#{login.btn}">Sign in</button>
+			<p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+			<a class="btn btn-sm" th:href="@{/index.html(l='zn_CN')}" >中文</a>
+			<a class="btn btn-sm"th:href="@{/index.html(l='en_US')}">English</a>
+		</form>
+
+	</body>
+
+</html>

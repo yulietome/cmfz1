@@ -1,0 +1,240 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>持明法州后台管理系统</title>
+    <link rel="icon" th:href="@{/bootstrap/img/arrow-up.png}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/jqgrid/css/css/hot-sneaks/jquery-ui-1.8.16.custom.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/jqgrid/boot/css/trirand/ui.jqgrid-bootstrap.css}">
+    <script th:src="@{/bootstrap/js/jquery.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script th:src="@{/bootstrap/jqgrid/js/i18n/grid.locale-cn.js}"></script>
+    <script th:src="@{/bootstrap/jqgrid/boot/js/trirand/jquery.jqGrid.min.js}"></script>
+    <script th:src="@{/bootstrap/js/ajaxfileupload.js}"></script>
+
+
+</head>
+<body>
+
+
+    <!--顶部导航-->
+    <!-- 导航条-->
+    <nav class="navbar  navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <div class="">
+                    <!--导航条的标题-->
+                    <a class="navbar-brand" href="#"><font size="5px">持明法洲管理系统</font></a>
+                </div>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">欢迎：<span color="black" th:text="${session.admin.username}">小黑</span> </a>
+                    </li>
+                    <li><a href="#">退出系统&nbsp;<span class="glyphicon glyphicon-share" aria-hidden="true"></span></a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!--栅格系统-->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 手风琴-->
+            <div class="col-md-2">
+                <div class="panel-group" id="accordion">
+                    <!--默认的面版样式-->
+                    <div class="panel panel-success">
+                        <!--面板头-->
+                        <div class="panel-heading ">
+                            <!--面板标题-->
+                            <h4 class="panel-title text-center" >
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                    用户管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse ">
+                            <!--面板的主体内容-->
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked text-center">
+                                    <li><a href="#">用户添加</a></li>
+                                    <li><a href="#">用户修改</a></li>
+                                    <li><a href="#">用户删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-center">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                    轮播图管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked text-center">
+                                    <li><a href="#">类别添加</a></li>
+                                    <li><a href="#">类别修改</a></li>
+                                    <li><a href="#">类别删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-center">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsethress">
+                                    专辑管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapsethress" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked text-center">
+                                    <li><a href="#">图书添加</a></li>
+                                    <li><a href="#">图书修改</a></li>
+                                    <li><a href="#">图书删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-warning">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-center">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefour">
+                                    文章管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapsefour" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked text-center">
+                                    <li><a href="#">图书添加</a></li>
+                                    <li><a href="#">图书修改</a></li>
+                                    <li><a href="#">图书删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-center">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsefive">
+                                    上师管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapsefive" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked text-center">
+                                    <li><a href="#">图书添加</a></li>
+                                    <li><a href="#">图书修改</a></li>
+                                    <li><a href="#">图书删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4 class="panel-title text-center">
+                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsesex">
+                                    管理员管理
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapsesex" class="panel-collapse  collapse ">
+                            <div class="panel-body">
+                                <ul class="nav nav-pills nav-stacked text-center">
+                                    <li><a href="#">图书添加</a></li>
+                                    <li><a href="#">图书修改</a></li>
+                                    <li><a href="#">图书删除</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--巨幕开始-->
+            <div class="col-md-10">
+                <div class="jumbotron">
+                    <h2>欢迎来到持明法洲后台管理系统</h2>
+                </div>
+                <!--右边轮播图部分-->
+                <!-- 轮播图-->
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">                    <!-- 幻灯片播放的顺序-->
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1" ></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2" ></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="3" ></li>
+
+                    </ol><!--幻灯片的图片-->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img th:src="@{/bootstrap/img/shouye.jpg}"  width="1400"/>
+                            <div class="carousel-caption">
+
+                            </div>
+                        </div>
+
+                        <div class="item " style="height:400px">
+                            <img th:src="@{/bootstrap/img/1.png}"src="${path}/bootstrap/img/1.png"  width="1400"/>
+                            <div class="carousel-caption">
+
+                            </div>
+                        </div>
+                        <div class="item " style="height:400px">
+                            <img th:src="@{/bootstrap/img/2.png}" src="${path}/bootstrap/img/2.png" width="1400"/>
+                            <div class="carousel-caption">
+
+                            </div>
+                        </div>
+                        <div class="item " style="height:400px">
+                            <img th:src="@{/bootstrap/img/3.png}" src="${path}/bootstrap/img/3.png"  width="1400"/>
+                            <div class="carousel-caption">
+
+                            </div>
+                        </div>
+                        <!-- Controls -->                                                   <!-- 左滑动-->
+                        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span><!-- 图标-->
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                        </a>
+                    </div>
+                </div>
+                <!--页脚-->
+                <div id="footer" >
+                    <nav class="navbar navbar-default" >
+                        <div class="navbar-inner navbar-content-center">
+                            <p align="center" style="padding-top: 12px">
+                                @百知教育&nbsp;zhanghn@zparkhr.com
+                            </p>
+                        </div>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
