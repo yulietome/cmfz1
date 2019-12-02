@@ -115,6 +115,13 @@
             之后依赖该项目的项目如果想要使用devtools，需要重新导入-->
             <optional>true</optional>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.webjars.npm/free-jqgrid -->
+        <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>free-jqgrid</artifactId>
+            <version>4.14.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

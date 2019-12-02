@@ -1,11 +1,9 @@
 package com.baizhi.cmfz.config;
 
-import com.baizhi.cmfz.component.LoginHandlerInterceptor;
 import com.baizhi.cmfz.component.MyLocalResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -17,7 +15,8 @@ public class MyMVCConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("login");
         registry.addViewController("/index.html").setViewName("login");
-        registry.addViewController("/main").setViewName("main");
+        registry.addViewController("main/main").setViewName("main/main");
+        registry.addViewController("banner/bannerManagement").setViewName("banner/bannerManagement");
 //        registry.addViewController("/main.html").setViewName("dashboard");
     }
     //国际化问题

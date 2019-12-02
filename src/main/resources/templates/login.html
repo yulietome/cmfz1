@@ -72,7 +72,7 @@
 							$.post("admin/login",$('#form').serialize(),function(data){
 								console.log(data);
 								if (data=="Ok"){
-									location.href="main"
+									location.href="main/main"
 								}else {
 									$("#msg").html(data)
 								}

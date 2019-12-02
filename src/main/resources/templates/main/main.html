@@ -90,9 +90,7 @@
                         <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
                                 <ul class="nav nav-pills nav-stacked text-center">
-                                    <li><a href="#">类别添加</a></li>
-                                    <li><a href="#">类别修改</a></li>
-                                    <li><a href="#">类别删除</a></li>
+                                    <li><a href="javascript:$('#mainId').load('../banner/bannerManagement')">轮播图管理</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -172,7 +170,7 @@
                 </div>
             </div>
             <!--巨幕开始-->
-            <div class="col-md-10">
+            <div class="col-md-10" id="mainId">
                 <div class="jumbotron">
                     <h2>欢迎来到持明法洲后台管理系统</h2>
                 </div>
@@ -189,14 +187,14 @@
                     </ol><!--幻灯片的图片-->
                     <div class="carousel-inner">
                         <div class="item active">
-                            <img th:src="@{/bootstrap/img/shouye.jpg}"  width="1400"/>
+                            <img th:src="@{/bootstrap/img/shouye.jpg}" width="1400"/>
                             <div class="carousel-caption">
 
                             </div>
                         </div>
 
                         <div class="item " style="height:400px">
-                            <img th:src="@{/bootstrap/img/1.png}"src="${path}/bootstrap/img/1.png"  width="1400"/>
+                            <img th:src="@{/bootstrap/img/1.png}" src="${path}/bootstrap/img/1.png" width="1400"/>
                             <div class="carousel-caption">
 
                             </div>
@@ -208,7 +206,7 @@
                             </div>
                         </div>
                         <div class="item " style="height:400px">
-                            <img th:src="@{/bootstrap/img/3.png}" src="${path}/bootstrap/img/3.png"  width="1400"/>
+                            <img th:src="@{/bootstrap/img/3.png}" src="${path}/bootstrap/img/3.png" width="1400"/>
                             <div class="carousel-caption">
 
                             </div>
