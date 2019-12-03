@@ -1,0 +1,133 @@
+<script>
+    $(function(){
+        $("#abTable").jqGrid({
+            url : "[[@{/}]]album/album.json",
+            editurl:"[[@{/}]]album/edit",
+            datatype : "json",
+            rowNum : 8,
+            rowList : [ 8, 10, 20, 30 ],
+            pager : '#abPage',
+            viewrecords : true,
+            styleUI:"Bootstrap",
+            height : "auto",
+            autowidth:true,
+            multiselect : false,
+            colNames : [ 'Id', '名称',"封面", '作者','播音','评分', '集数', '内容','时间'],
+            colModel : [
+                {name : 'id', width : 55},
+                {name : 'title',editable:true,width : 90},
+                {name : "coverSrc",editable:true,edittype:"file", width : 130,
+                    formatter:function(cellvalue, options, rowObject){
+                        return "<img src='[[@{/}]]/uploadFile/"+cellvalue+"' style='width:180px;height:80px' />";
+                    }
+
+                },
+                {name : 'author',editable:true,width : 100},
+                {name : 'beam',editable:true,width : 100},
+                {name : 'score',width : 100},
+                {name : 'count',index : 'amount',width : 80,align : "right"},
+                {name : 'content',editable:true,index : 'tax',width : 80,align : "right"},
+                {name : 'publishDate',editable:true,index : 'note',width : 150,sortable : false}
+            ],
+            subGrid : true,  //是否开启子表格
+            //1.subgrid_id 点击一行会在父表各种创建一个div来容纳子表格  subgrid_id就是这个div的id
+            //2.row_id  点击行的id
+            subGridRowExpanded : function(subgrid_id, row_id) {
+                addSubGrid(subgrid_id, row_id);
+            }
+        });
+
+        //父表格 工具栏
+        $("#abTable").jqGrid('navGrid', '#abPage', {add : true,edit : true,del : true},
+            { closeAfterEdit:true,
+                beforeShowForm:function(obj){
+                    obj.find("#").attr("disabled",true);
+                }
+            },
+            {
+                closeAfterAdd:true,
+                afterSubmit:function (data) {
+                    console.log(data)
+                    $.ajaxFileUpload({
+                        url:"[[@{/}]]album/uploadAlbumCover",
+                        type:"post",
+                        dataType:"json",
+                        data:{id:data.responseText},  //获取id
+                        fileElementId:"cover_img",  //需要上传的文件域的ID，即<input type="file">的ID
+                        success:function(){
+                            //刷新表单
+                            $("#abTable").trigger("reloadGrid");
+                        }
+                    });
+                    return "123456";
+                }
+            },
+            {});
+    });
+
+    //子表格
+    function addSubGrid(subgridId, rowId){
+
+        var subgridTableId= subgridId + "Table";
+        var pagerId= subgridId+"Page";
+
+        $("#"+subgridId).html("<table id='"+subgridTableId+"' />" +
+            "<div id='"+pagerId+"'/>"
+        );
+
+
+        //子表格
+        $("#" + subgridTableId).jqGrid({
+            //url : "/chapter/queryByPage?AlbumId=" + rowId,
+            url:"[[@{/}]]album/chapter.json",
+            datatype : "json",
+            rowNum : 20,
+            pager : "#"+pagerId,
+            sortname : 'num',
+            sortorder : "asc",
+            styleUI:"Bootstrap",
+            height : "auto",
+            viewrecords : true,
+            autowidth:true,
+            colNames : [ 'Id', '名字', '大小', '时长','日期' ,"操作"],
+            colModel : [
+                {name : "id",  index : "num",width : 80,key : true},
+                {name : "title",index : "item",  width : 130},
+                {name : "size",index : "qty",width : 70,align : "right"},
+                {name : "duration",index : "unit",width : 70,align : "right"},
+                {name : "upload_time",index : "total",width : 70,align : "right",sortable : false},
+                {name : "upload_time",align:"center",
+                    formatter:function(cellvalue, options, rowObject){
+
+                        return "<a href='' ><span class='glyphicon glyphicon-download' /></a>&nbsp;&emsp;&emsp;" +
+                            "<a href='' ><span class='glyphicon glyphicon-play-circle' /></a>";
+                    }
+                }
+            ]
+        });
+
+        //子表格的正删改查操作
+        $("#" + subgridTableId).jqGrid('navGrid',"#" + pagerId, {edit : true,add : true,del : true});
+    }
+
+</script>
+
+
+
+<div class="panel panel-warning">
+
+
+    <div class="panel panel-heading">
+        <h3>专辑管理</h3>
+    </div>
+
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a >专辑管理</a></li>
+    </ul>
+
+    <table id="abTable"/>
+
+    <div id="abPage" />
+
+</div>

@@ -40,6 +40,6 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--生成对应表及类名-->
-        <table tableName="banner" domainObjectName="Banner" ></table>
+        <table tableName="chapter" domainObjectName="Chapter" ></table>
     </context>
 </generatorConfiguration>
