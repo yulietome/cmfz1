@@ -2,6 +2,7 @@ package com.baizhi.cmfz.controller;
 
 import com.baizhi.cmfz.entity.Banner;
 import com.baizhi.cmfz.service.BannerService;
+import org.apache.ibatis.logging.stdout.StdOutImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,18 +17,26 @@ import java.util.Map;
 @RestController
 @RequestMapping("banner")
 public class BannerController {
+
     @Autowired
     BannerService bannerService;
     @RequestMapping("edit")
     public String edit(Banner banner,String oper){
+        System.out.println(banner);
         String id = null;
         if (oper.equals("add")){
             System.out.println(banner);
             bannerService.addBanner(banner);
             id = banner.getId();
         }
-        if (oper.equals("edit")){}
-        if (oper.equals("del")){}
+        if (oper.equals("edit")){
+            System.out.println(oper);
+            System.out.println(banner);
+            bannerService.bannerUpdate(banner);
+        }
+        if (oper.equals("del")){
+            bannerService.delete(banner);
+        }
         return id;
     }
     @RequestMapping("uploadBanner")

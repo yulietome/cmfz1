@@ -67,4 +67,22 @@ public class BannerServiceImpl implements BannerService {
         map.put("rows",banners);
         return map;
     }
+
+    @Override
+    public void bannerUpdate(Banner banner) {
+        if (banner.getImgSrc()==""){
+            banner.setImgSrc(null);
+        }
+        BannerExample example = new BannerExample();
+        example.createCriteria().andIdEqualTo(banner.getId());
+        bannerMapper.updateByExampleSelective(banner,example);
+    }
+
+    @Override
+    public void delete(Banner banner) {
+        BannerExample example = new BannerExample();
+        System.out.println(banner.getId());
+        example.createCriteria().andIdEqualTo(banner.getId());
+        bannerMapper.deleteByExample(example);
+    }
 }
