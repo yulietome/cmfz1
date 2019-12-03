@@ -53,7 +53,7 @@
                         type:"post",
                         dataType:"json",
                         data:{id:data.responseText},  //获取id
-                        fileElementId:"cover_img",  //需要上传的文件域的ID，即<input type="file">的ID
+                        fileElementId: "coverSrc",  //需要上传的文件域的ID，即<input type="file">的ID
                         success:function(){
                             //刷新表单
                             $("#abTable").trigger("reloadGrid");
