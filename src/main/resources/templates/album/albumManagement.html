@@ -1,7 +1,7 @@
 <script>
     $(function(){
         $("#abTable").jqGrid({
-            url : "[[@{/}]]album/album.json",
+            url: "[[@{/}]]album/showAllAlbum",
             editurl:"[[@{/}]]album/edit",
             datatype : "json",
             rowNum : 8,
@@ -18,7 +18,7 @@
                 {name : 'title',editable:true,width : 90},
                 {name : "coverSrc",editable:true,edittype:"file", width : 130,
                     formatter:function(cellvalue, options, rowObject){
-                        return "<img src='[[@{/}]]/uploadFile/"+cellvalue+"' style='width:180px;height:80px' />";
+                        return "<img src='[[@{/}]]/upload/albumCover/" + cellvalue + "' style='width:180px;height:80px' />";
                     }
 
                 },
@@ -41,7 +41,7 @@
         $("#abTable").jqGrid('navGrid', '#abPage', {add : true,edit : true,del : true},
             { closeAfterEdit:true,
                 beforeShowForm:function(obj){
-                    obj.find("#").attr("disabled",true);
+                    obj.find("#coverSrc").attr("disabled", true);
                 }
             },
             {

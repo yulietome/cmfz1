@@ -1,21 +1,17 @@
 package com.baizhi.cmfz.serviceimpl;
-
 import com.baizhi.cmfz.dao.AlbumMapper;
-import com.baizhi.cmfz.entity.AdminExample;
 import com.baizhi.cmfz.entity.Album;
 import com.baizhi.cmfz.entity.AlbumExample;
 import com.baizhi.cmfz.service.AlbumService;
-import lombok.AllArgsConstructor;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.StringReader;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
+
 @Service
 @Transactional
 public class AlbumServiceImpl implements AlbumService {
@@ -38,7 +34,6 @@ public class AlbumServiceImpl implements AlbumService {
         if (!file.isDirectory()) {
             file.mkdirs();
         }
-
         String filename = coverSrc.getOriginalFilename();
         String newFilename = new Date().getTime() + "-" + filename;
         try {
@@ -53,5 +48,36 @@ public class AlbumServiceImpl implements AlbumService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Map<String, Object> showAllAlbum(Integer page, Integer rows) {
+        HashMap<String, Object> map = new HashMap<>();
+        RowBounds rowBounds = new RowBounds((page - 1) * rows, rows);
+        List<Album> albums = albumMapper.selectByRowBounds(new Album(), rowBounds);
+        Integer count = albumMapper.selectCount(new Album());
+        Integer total = count % rows == 0 ? count / rows : count / rows + 1;
+        map.put("total", total);
+        map.put("records", count);
+        map.put("page", page);
+        map.put("rows", albums);
+        return map;
+    }
+
+    @Override
+    public void albumUpdate(Album album) {
+        if (album.getCoverSrc() == "") {
+            album.setCoverSrc(null);
+        }
+        AlbumExample example = new AlbumExample();
+        example.createCriteria().andIdEqualTo(album.getId());
+        albumMapper.updateByExampleSelective(album, example);
+    }
+
+    @Override
+    public void delete(Album album) {
+        AlbumExample example = new AlbumExample();
+        example.createCriteria().andIdEqualTo(album.getId());
+        albumMapper.deleteByExample(example);
     }
 }
