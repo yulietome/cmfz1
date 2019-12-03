@@ -4,6 +4,7 @@ import com.baizhi.cmfz.dao.BannerMapper;
 import com.baizhi.cmfz.entity.Banner;
 import com.baizhi.cmfz.entity.BannerExample;
 import com.baizhi.cmfz.service.BannerService;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,8 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
+
 @Service
 @Transactional
 public class BannerServiceImpl implements BannerService {
@@ -51,5 +52,19 @@ public class BannerServiceImpl implements BannerService {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Map<String,Object> showAllBanner(Integer page, Integer rows) {
+        HashMap<String,Object> map= new HashMap<>();
+        RowBounds rowBounds = new RowBounds((page-1)*rows,rows);
+        List<Banner> banners = bannerMapper.selectByRowBounds(new Banner(), rowBounds);
+        Integer count = bannerMapper.selectCount(new Banner());
+        Integer total=count%rows==0?count/rows:count/rows+1;
+        map.put("total",total);
+        map.put("records",count);
+        map.put("page",page);
+        map.put("rows",banners);
+        return map;
     }
 }

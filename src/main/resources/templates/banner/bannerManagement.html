@@ -2,7 +2,7 @@
     $(function(){
         //创建表单
         $("#bnTable").jqGrid({
-            url : "[[@{/}]]banner/banner.json",   //page  当前页    rows 每页展示条数
+            url : "[[@{/}]]banner/showAllBanners",   //page  当前页    rows 每页展示条数
             editurl:"[[@{/}]]banner/edit",
             datatype : "json",
             rowNum : 2,
@@ -17,7 +17,7 @@
                 {name : 'id',index : 'id',width : 55},
                 {name : 'imgSrc',editable:true,index : 'invdate',width : 90,align:"center",edittype:"file",
                     formatter:function(cellvalue, options, rowObject){
-                        return "<img src='../bootstrap/img/"+cellvalue+"' style='width:180px;height:80px' />";
+                        return "<img src='../uploadFile/"+cellvalue+"' style='width:180px;height:80px' />";
                     }
                 },
                 {name : 'description',editable:true,index : 'name asc, invdate',width : 100},
