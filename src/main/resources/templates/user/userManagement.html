@@ -40,31 +40,31 @@
             ]
         });
         //增删改查操作
-        $("#bnTable").jqGrid('navGrid', '#usPage', {edit: false, add: false, del: false});
+        $("#usTable").jqGrid('navGrid', '#usPage', {edit: false, add: false, del: false});
     });
 
     function updateStatus(id, status) {
-
+        console.log(id, status)
         if (status == "0") {
             $.ajax({
-                url: "",
+                url: "[[@{/}]]user/changeStatus",
                 type: "post",
                 datatype: "json",
-                data: {"id": id, "status": "1", "oper": "edit"},
+                data: {"id": id, "status": "1"},
                 success: function () {
                     //刷新表单
-                    $("#bnTable").trigger("reloadGrid");
+                    $("#usTable").trigger("reloadGrid");
                 }
             });
         } else {
             $.ajax({
-                url: "[[@{/}]]banner/edit",
+                url: "[[@{/}]]user/changeStatus",
                 type: "post",
                 datatype: "json",
-                data: {"id": id, "status": "0", "oper": "edit"},
+                data: {"id": id, "status": "0",},
                 success: function () {
                     //刷新表单
-                    $("#bnTable").trigger("reloadGrid");
+                    $("#usTable").trigger("reloadGrid");
                 }
             });
         }

@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
         map.put("total", total);
         map.put("record", count);
         map.put("page", page);
-        map.put("rows", rows);
+        map.put("rows", users);
         return map;
     }
 
