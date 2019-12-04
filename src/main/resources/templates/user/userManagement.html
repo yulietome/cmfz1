@@ -1,0 +1,86 @@
+<script>
+    $(function () {
+        //创建表单
+        $("#usTable").jqGrid({
+            url: "[[@{/}]]user/showAllUsers",   //page  当前页    rows 每页展示条数
+            datatype: "json",
+            rowNum: 2,
+            rowList: [2, 5, 10, 20, 30],
+            pager: '#usPage',
+            viewrecords: true,  //是否展示总条数
+            styleUI: "Bootstrap",
+            height: "auto",
+            autowidth: true,
+            colNames: ['Id', '头像', '大师', '姓名', '性别', "省份", "城市", "签名", "用户名", "密码", "状态"],
+            colModel: [
+                {name: 'id', index: 'id', width: 55},
+                {
+                    name: 'headImg', width: 100, formatter: function (cellvalue, options, rowObject) {
+                        return "<img src='../upload/userImg/" + cellvalue + "'style='width:180px;height:80px'/>"
+                    }
+                },
+                {name: 'dharma', width: 55},
+                {name: 'name', width: 55},
+                {name: 'sex', width: 55},
+                {name: 'province', width: 55},
+                {name: 'city', width: 55},
+                {name: 'sign', width: 55},
+                {name: 'username', width: 55},
+                {name: 'password', width: 100},
+                {
+                    name: 'status', width: 80, align: "right", align: "center",
+                    formatter: function (cellvalue, options, rowObject) {
+                        if (cellvalue == 1) {
+                            return "<button class='btn btn-success' onclick='updateStatus(\"" + rowObject.id + "\",\"" + cellvalue + "\")'>不展示</button>";
+                        } else {
+                            return "<button class='btn btn-danger' onclick='updateStatus(\"" + rowObject.id + "\",\"" + cellvalue + "\")'>展示</button>";
+                        }
+                    }
+                },
+            ]
+        });
+        //增删改查操作
+        $("#bnTable").jqGrid('navGrid', '#usPage', {edit: false, add: false, del: false});
+    });
+
+    function updateStatus(id, status) {
+
+        if (status == "0") {
+            $.ajax({
+                url: "",
+                type: "post",
+                datatype: "json",
+                data: {"id": id, "status": "1", "oper": "edit"},
+                success: function () {
+                    //刷新表单
+                    $("#bnTable").trigger("reloadGrid");
+                }
+            });
+        } else {
+            $.ajax({
+                url: "[[@{/}]]banner/edit",
+                type: "post",
+                datatype: "json",
+                data: {"id": id, "status": "0", "oper": "edit"},
+                success: function () {
+                    //刷新表单
+                    $("#bnTable").trigger("reloadGrid");
+                }
+            });
+        }
+    }
+</script>
+
+
+<div class="panel panel-heading">
+    <h3>用户管理</h3>
+</div>
+
+
+<ul class="nav nav-tabs">
+    <li class="active"><a>用户管理</a></li>
+</ul>
+
+<table id="usTable"/>
+
+<div id="usPage"/>
