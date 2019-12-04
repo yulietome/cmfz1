@@ -17,6 +17,5 @@ public interface ChapterService {
     void chapterUpdate(Chapter chapter);
 
     void delete(Chapter chapter);
-
     void audioDownload(String audioName, HttpServletRequest request, HttpServletResponse response);
 }
