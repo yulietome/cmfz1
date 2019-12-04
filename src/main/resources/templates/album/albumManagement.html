@@ -39,7 +39,8 @@
 
         //父表格 工具栏
         $("#abTable").jqGrid('navGrid', '#abPage', {add : true,edit : true,del : true},
-            { closeAfterEdit:true,
+            {
+                closeAfterEdit: true,
                 beforeShowForm:function(obj){
                     obj.find("#coverSrc").attr("disabled", true);
                 }
@@ -67,10 +68,8 @@
 
     //子表格
     function addSubGrid(subgridId, rowId){
-
         var subgridTableId= subgridId + "Table";
         var pagerId= subgridId+"Page";
-
         $("#"+subgridId).html("<table id='"+subgridTableId+"' />" +
             "<div id='"+pagerId+"'/>"
         );
@@ -78,8 +77,8 @@
 
         //子表格
         $("#" + subgridTableId).jqGrid({
-            //url : "/chapter/queryByPage?AlbumId=" + rowId,
-            url:"[[@{/}]]album/chapter.json",
+            url: "[[@{/}]]chapter/showAllChapter?albumId=" + rowId,
+            editurl: "[[@{/}]]chapter/edit?albumId=" + rowId,
             datatype : "json",
             rowNum : 20,
             pager : "#"+pagerId,
@@ -89,25 +88,73 @@
             height : "auto",
             viewrecords : true,
             autowidth:true,
-            colNames : [ 'Id', '名字', '大小', '时长','日期' ,"操作"],
+            colNames: ['Id', '标题', '文件大小（MB）', '时长', '上传日期', "文件名", "操作"],
             colModel : [
-                {name : "id",  index : "num",width : 80,key : true},
-                {name : "title",index : "item",  width : 130},
-                {name : "size",index : "qty",width : 70,align : "right"},
-                {name : "duration",index : "unit",width : 70,align : "right"},
-                {name : "upload_time",index : "total",width : 70,align : "right",sortable : false},
-                {name : "upload_time",align:"center",
+                {name: "id", width: 80, key: true},
+                {name: "title", editable: true, width: 130},
+                {name: "size", width: 70, align: "right"},
+                {name: "duration", width: 70, align: "right"},
+                {name: "uploadTime", width: 70, align: "right", sortable: false},
+                {
+                    name: "filename",
+                    hidden: true,
+                    editable: true,
+                    editrules: {edithidden: true},
+                    edittype: "file",
+                    width: 70,
+                    align: "right"
+                },
+                {
+                    name: "filename", align: "center",
                     formatter:function(cellvalue, options, rowObject){
-
-                        return "<a href='' ><span class='glyphicon glyphicon-download' /></a>&nbsp;&emsp;&emsp;" +
-                            "<a href='' ><span class='glyphicon glyphicon-play-circle' /></a>";
+                        return "<a href='#' onclick='audioDownload(\"" + cellvalue + "\")'><span class='glyphicon glyphicon-download' /></a>&nbsp;&emsp;&emsp;" +
+                            "<a href='#' onclick='audioPlayer(\"" + cellvalue + "\")'><span class='glyphicon glyphicon-play-circle' /></a>";
                     }
-                }
+                },
             ]
         });
-
         //子表格的正删改查操作
-        $("#" + subgridTableId).jqGrid('navGrid',"#" + pagerId, {edit : true,add : true,del : true});
+        $("#" + subgridTableId).jqGrid('navGrid', "#" + pagerId, {edit: true, add: true, del: true},
+            {
+                closeAfterEdit: true,
+                beforeShowForm: function (obj) {
+                    obj.find("#filename").attr("disabled", true);
+                }
+            },
+            {
+                closeAfterAdd: true,
+                afterSubmit: function (data) {
+                    console.log(data)
+                    console.log(rowId)
+                    $.ajaxFileUpload({
+                        url: "[[@{/}]]chapter/chapterUpload?albumId=" + rowId,
+                        type: "post",
+                        dataType: "json",
+                        data: {id: data.responseText},  //获取id
+                        fileElementId: "filename",  //需要上传的文件域的ID，即<input type="file">的ID
+                        success: function () {
+                            //刷新表单
+                            $("#" + subgridTableId).trigger("reloadGrid");
+                        }
+                    });
+                    return "123456";
+                }
+            },
+            {});
+    }
+
+    function audioDownload(audioName) {
+
+        location.href = "[[@{/}]]chapter/audioDownload?audioName=" + audioName;
+    }
+
+    //在线播放
+    function audioPlayer(audioName) {
+
+        //展示模态框
+        $("#AudioModal").modal("show");
+        //给音频标签设置值
+        $("#myAudio").attr("src", "[[@{/}]]upload/chapter/" + audioName);
     }
 
 </script>
@@ -130,4 +177,11 @@
 
     <div id="abPage" />
 
+    <!--播放的模态框-->
+    <div class="modal fade" id="AudioModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+
+            <audio controls id="myAudio" src=""/>
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </div>

@@ -80,4 +80,14 @@ public class AlbumServiceImpl implements AlbumService {
         example.createCriteria().andIdEqualTo(album.getId());
         albumMapper.deleteByExample(example);
     }
+
+    @Override
+    public void addCount(String albumId) {
+        albumMapper.addCount(albumId);
+    }
+
+    @Override
+    public void discount(String albumId) {
+        albumMapper.discount(albumId);
+    }
 }

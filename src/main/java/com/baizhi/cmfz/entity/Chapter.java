@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Chapter {
     private String id;
 
-    private String filepath;
+    private String filename;
 
     private Double size;
 
@@ -20,4 +20,5 @@ public class Chapter {
 
     private String albumId;
 
+    private String title;
 }

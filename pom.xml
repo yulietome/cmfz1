@@ -107,15 +107,18 @@
             <artifactId>joda-time</artifactId>
             <version>2.10.3</version>
         </dependency>
-
-
         <!-- https://mvnrepository.com/artifact/org.webjars.npm/free-jqgrid -->
         <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>free-jqgrid</artifactId>
             <version>4.14.1</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org/jaudiotagger -->
+        <dependency>
+            <groupId>org</groupId>
+            <artifactId>jaudiotagger</artifactId>
+            <version>2.0.3</version>
+        </dependency>
     </dependencies>
 
     <build>
