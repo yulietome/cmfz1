@@ -11,6 +11,7 @@ public class AlbumExample {
 
     protected List<Criteria> oredCriteria;
 
+
     public AlbumExample() {
         oredCriteria = new ArrayList<Criteria>();
     }

@@ -13,6 +13,7 @@ public class AdminExample {
 
     protected List<Criteria> oredCriteria;
 
+
     public AdminExample() {
         oredCriteria = new ArrayList<Criteria>();
     }

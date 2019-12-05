@@ -12,6 +12,7 @@ public class Chapter {
 
     private String filename;
 
+
     private Double size;
 
     private String duration;

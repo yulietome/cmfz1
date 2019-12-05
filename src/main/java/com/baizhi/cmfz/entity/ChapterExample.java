@@ -14,6 +14,7 @@ public class ChapterExample {
         oredCriteria = new ArrayList<Criteria>();
     }
 
+
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
     }

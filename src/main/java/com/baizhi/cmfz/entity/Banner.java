@@ -12,6 +12,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class Banner {
     private String id;
+
+
     private String imgSrc;
     private String status;
     private String description;

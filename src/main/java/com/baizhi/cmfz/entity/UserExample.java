@@ -18,6 +18,7 @@ public class UserExample {
         return orderByClause;
     }
 
+
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
     }
